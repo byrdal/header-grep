@@ -1,0 +1,13 @@
+{
+  "manifest_version": 2,
+
+  "name": "HeaderGrep",
+  "description": "This extension allows grepping header names and values of all requests",
+  "version": "1.0",
+
+  "devtools_page": "devtools.html",
+  "permissions": [
+    "http://*/*",
+    "https://*/*"
+  ]
+}
