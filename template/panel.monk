@@ -1,0 +1,6 @@
+<div>
+    <span>Header name: </span>
+    <input type="text"/>
+
+    <div id="events"></div>
+</div>

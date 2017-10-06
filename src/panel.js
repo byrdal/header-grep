@@ -1,3 +1,10 @@
+import Monkberry from 'monkberry';
+import Template from 'template.monk';
+
+const view = Monkberry.render(Template, document.body);
+view.update({name: 'World'});
+
+
 chrome.devtools.network.onNavigated.addListener(
     function(details) {
         document.querySelector('#events').innerHTML = '';

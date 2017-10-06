@@ -1,0 +1,29 @@
+{
+  "name": "header-grep",
+  "version": "1.0.0",
+  "description": "Chrome extension, grep header names and values",
+  "main": "index.js",
+  "scripts": {
+    "postinstall": "npm run build",
+    "build": "monkberry template/*.monk --source-map --output view/view.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/byrdal/header-grep.git"
+  },
+  "keywords": [
+    "chrome",
+    "header",
+    "grep"
+  ],
+  "author": "Kasper Byrdal Nielsen",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/byrdal/header-grep/issues"
+  },
+  "homepage": "https://github.com/byrdal/header-grep#readme",
+  "dependencies": {
+    "monkberry": "^4.0.8"
+  }
+}

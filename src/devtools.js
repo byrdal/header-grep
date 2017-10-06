@@ -1,6 +1,6 @@
 chrome.devtools.panels.create(
     "HeaderGrep",
     null,
-    "../html/panel.html",
+    "../view/panel.html",
     null
 );
