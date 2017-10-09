@@ -483,26 +483,28 @@ view.update({name: 'World'});
 /***/ (function(module, exports, __webpack_require__) {
 
 var Monkberry = __webpack_require__(0);
+var Toolbar = __requireDefault(__webpack_require__(4));
+function __requireDefault(obj) { return obj && obj.__esModule ? obj.default : obj; }
 
 /**
  * @class
  */
 function panel() {
   Monkberry.call(this);
+  var _this = this;
 
   // Create elements
+  var custom0 = document.createComment('Toolbar');
+  var child0 = {};
   var div0 = document.createElement('div');
-  var input1 = document.createElement('input');
-  var div2 = document.createElement('div');
 
-  // Construct dom
-  input1.setAttribute("type", "text");
-  div2.id = "events";
-  div0.appendChild(input1);
-  div0.appendChild(div2);
+  // Extra render actions
+  this.onRender = function () {
+    Monkberry.insert(_this, custom0, child0, Toolbar, {});
+  };
 
   // Set root nodes
-  this.nodes = [div0];
+  this.nodes = [custom0, div0];
 }
 panel.prototype = Object.create(Monkberry.prototype);
 panel.prototype.constructor = panel;
@@ -511,6 +513,46 @@ panel.prototype.update = function (__data__) {
 };
 
 module.exports = panel;
+
+
+/***/ }),
+/* 4 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var Monkberry = __webpack_require__(0);
+
+/**
+ * @class
+ */
+function toolbar() {
+  Monkberry.call(this);
+
+  // Create elements
+  var div0 = document.createElement('div');
+  var input1 = document.createElement('input');
+  var input2 = document.createElement('input');
+
+  // Construct dom
+  input1.id = "nameRegex";
+  input1.setAttribute("type", "text");
+  input2.id = "valueRegex";
+  input2.setAttribute("type", "text");
+  div0.appendChild(document.createTextNode(" Header name regex "));
+  div0.appendChild(input1);
+  div0.appendChild(document.createTextNode(" Header value regex "));
+  div0.appendChild(input2);
+  div0.setAttribute("class", "toolbar");
+
+  // Set root nodes
+  this.nodes = [div0];
+}
+toolbar.prototype = Object.create(Monkberry.prototype);
+toolbar.prototype.constructor = toolbar;
+toolbar.pool = [];
+toolbar.prototype.update = function (__data__) {
+};
+
+module.exports = toolbar;
 
 
 /***/ })

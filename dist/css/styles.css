@@ -1,2 +1,8 @@
 body {
-  background-color: aquamarine; }
+  margin: 0;
+  padding: 0; }
+
+.toolbar {
+  background-color: #efefef;
+  border-bottom: 1px solid darkgray;
+  padding: 4px; }

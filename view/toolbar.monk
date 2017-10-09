@@ -1,3 +1,4 @@
-<div>
-
+<div class="toolbar">
+    Header name regex <input id="nameRegex" type="text"/>
+    Header value regex <input id="valueRegex" type="text"/>
 </div>

@@ -1,6 +1,5 @@
-<div>
-    <!--<span>Header {{ name }}: </span>-->
-    <input type="text"/>
+{% import Toolbar from './toolbar.monk' %}
 
-    <div id="events"></div>
+<Toolbar/>
+<div>
 </div>
