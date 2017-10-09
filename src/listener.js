@@ -1,17 +1,23 @@
+function RequestListener(view) {
+    this.requests = [];
+    this.view = view;
+    this.addListeners();
+}
 
-chrome.devtools.network.onNavigated.addListener(
-    function(details) {
-        document.querySelector('#events').innerHTML = '';
-    }
-);
+RequestListener.prototype.constructor = RequestListener;
+module.exports = RequestListener;
 
-chrome.devtools.network.onRequestFinished.addListener(
-    function(request) {
-        console.log(request.response.headers);
-        for (var i=0, len=request.response.headers.length; i < len; i++) {
-            var node = document.createElement("div");
-            node.innerHTML = request.response.headers[i].name + ': ' + request.response.headers[i].value;
-            document.querySelector('#events').appendChild(node);
-        }
-    }
-);
+RequestListener.prototype.addListeners = function() {
+    chrome.devtools.network.onNavigated.addListener(
+        function(details) {
+            this.requests = [];
+        }.bind(this)
+    );
+
+    chrome.devtools.network.onRequestFinished.addListener(
+        function(request) {
+            this.requests.push(request);
+            this.view.update({ requests: this.requests});
+        }.bind(this)
+    );
+};

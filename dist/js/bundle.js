@@ -470,13 +470,15 @@ module.exports = __webpack_require__(2);
 
 /***/ }),
 /* 2 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
 var Monkberry = __webpack_require__(0),
-    Panel = __webpack_require__(3);
+    Panel     = __webpack_require__(3),
+    Listener  = __webpack_require__(5);
 
 const view = Monkberry.render(Panel, document.body);
-view.update({name: 'World'});
+const listener = new Listener(view);
 
 /***/ }),
 /* 3 */
@@ -497,10 +499,30 @@ function panel() {
   var custom0 = document.createComment('Toolbar');
   var child0 = {};
   var div0 = document.createElement('div');
+  var table1 = document.createElement('table');
+  var children1 = new Monkberry.Map();
+
+  // Construct dom
+  table1.id = "requests";
+  div0.appendChild(table1);
+
+  // Update functions
+  this.__update__ = {
+    requests: function (requests) {
+      Monkberry.loop(_this, table1, children1, panel_for0, requests);
+    }
+  };
 
   // Extra render actions
   this.onRender = function () {
     Monkberry.insert(_this, custom0, child0, Toolbar, {});
+  };
+
+  // On update actions
+  this.onUpdate = function (__data__) {
+    children1.forEach(function (view) {
+      view.update(view.__state__);
+    });
   };
 
   // Set root nodes
@@ -510,6 +532,94 @@ panel.prototype = Object.create(Monkberry.prototype);
 panel.prototype.constructor = panel;
 panel.pool = [];
 panel.prototype.update = function (__data__) {
+  if (__data__.requests !== undefined) {
+    this.__update__.requests(__data__.requests);
+  }
+  this.onUpdate(__data__);
+};
+
+/**
+ * @class
+ */
+function panel_for0() {
+  Monkberry.call(this);
+  this.__state__ = {};
+  var _this = this;
+
+  // Create elements
+  var for0 = document.createComment('for');
+  var children0 = new Monkberry.Map();
+
+  // Update functions
+  this.__update__ = {
+    response: function (response) {
+      Monkberry.loop(_this, for0, children0, panel_for0_for0, response.headers);
+    }
+  };
+
+  // On update actions
+  this.onUpdate = function (__data__) {
+    children0.forEach(function (view) {
+      view.update(view.__state__);
+    });
+  };
+
+  // Set root nodes
+  this.nodes = [for0];
+}
+panel_for0.prototype = Object.create(Monkberry.prototype);
+panel_for0.prototype.constructor = panel_for0;
+panel_for0.pool = [];
+panel_for0.prototype.update = function (__data__) {
+  if (__data__.response !== undefined) {
+    this.__update__.response(__data__.response);
+  }
+  this.onUpdate(__data__);
+};
+
+/**
+ * @class
+ */
+function panel_for0_for0() {
+  Monkberry.call(this);
+  this.__state__ = {};
+
+  // Create elements
+  var tr0 = document.createElement('tr');
+  var td1 = document.createElement('td');
+  var text2 = document.createTextNode('');
+  var td3 = document.createElement('td');
+  var text4 = document.createTextNode('');
+
+  // Construct dom
+  td1.appendChild(text2);
+  td3.appendChild(text4);
+  tr0.appendChild(td1);
+  tr0.appendChild(td3);
+
+  // Update functions
+  this.__update__ = {
+    name: function (name) {
+      text2.textContent = name;
+    },
+    value: function (value) {
+      text4.textContent = value;
+    }
+  };
+
+  // Set root nodes
+  this.nodes = [tr0];
+}
+panel_for0_for0.prototype = Object.create(Monkberry.prototype);
+panel_for0_for0.prototype.constructor = panel_for0_for0;
+panel_for0_for0.pool = [];
+panel_for0_for0.prototype.update = function (__data__) {
+  if (__data__.name !== undefined) {
+    this.__update__.name(__data__.name);
+  }
+  if (__data__.value !== undefined) {
+    this.__update__.value(__data__.value);
+  }
 };
 
 module.exports = panel;
@@ -554,6 +664,34 @@ toolbar.prototype.update = function (__data__) {
 
 module.exports = toolbar;
 
+
+/***/ }),
+/* 5 */
+/***/ (function(module, exports) {
+
+function RequestListener(view) {
+    this.requests = [];
+    this.view = view;
+    this.addListeners();
+}
+
+RequestListener.prototype.constructor = RequestListener;
+module.exports = RequestListener;
+
+RequestListener.prototype.addListeners = function() {
+    chrome.devtools.network.onNavigated.addListener(
+        function(details) {
+            this.requests = [];
+        }.bind(this)
+    );
+
+    chrome.devtools.network.onRequestFinished.addListener(
+        function(request) {
+            this.requests.push(request);
+            this.view.update({ requests: this.requests});
+        }.bind(this)
+    );
+};
 
 /***/ })
 /******/ ]);

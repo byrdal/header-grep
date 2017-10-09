@@ -1,5 +1,6 @@
 var Monkberry = require('monkberry'),
-    Panel = require('../view/panel.monk');
+    Panel     = require('../view/panel.monk'),
+    Listener  = require('../src/listener.js');
 
 const view = Monkberry.render(Panel, document.body);
-view.update({name: 'World'});
+const listener = new Listener(view);

@@ -2,4 +2,11 @@
 
 <Toolbar/>
 <div>
+    <table id="requests">
+        {% for requests %}
+            {% for response.headers %}
+                <tr><td>{{ name }}</td><td>{{ value }}</td></tr>
+            {% endfor %}
+        {% endfor %}
+    </table>
 </div>
