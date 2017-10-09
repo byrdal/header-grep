@@ -465,14 +465,21 @@
 /* 1 */
 /***/ (function(module, exports, __webpack_require__) {
 
+module.exports = __webpack_require__(2);
+
+
+/***/ }),
+/* 2 */
+/***/ (function(module, exports, __webpack_require__) {
+
 var Monkberry = __webpack_require__(0),
-    Panel = __webpack_require__(2);
+    Panel = __webpack_require__(3);
 
 const view = Monkberry.render(Panel, document.body);
 view.update({name: 'World'});
 
 /***/ }),
-/* 2 */
+/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Monkberry = __webpack_require__(0);
@@ -485,27 +492,14 @@ function panel() {
 
   // Create elements
   var div0 = document.createElement('div');
-  var span1 = document.createElement('span');
-  var text2 = document.createTextNode('');
-  var input3 = document.createElement('input');
-  var div4 = document.createElement('div');
+  var input1 = document.createElement('input');
+  var div2 = document.createElement('div');
 
   // Construct dom
-  span1.appendChild(document.createTextNode("Header "));
-  span1.appendChild(text2);
-  span1.appendChild(document.createTextNode(": "));
-  input3.setAttribute("type", "text");
-  div4.id = "events";
-  div0.appendChild(span1);
-  div0.appendChild(input3);
-  div0.appendChild(div4);
-
-  // Update functions
-  this.__update__ = {
-    name: function (name) {
-      text2.textContent = name;
-    }
-  };
+  input1.setAttribute("type", "text");
+  div2.id = "events";
+  div0.appendChild(input1);
+  div0.appendChild(div2);
 
   // Set root nodes
   this.nodes = [div0];
@@ -514,9 +508,6 @@ panel.prototype = Object.create(Monkberry.prototype);
 panel.prototype.constructor = panel;
 panel.pool = [];
 panel.prototype.update = function (__data__) {
-  if (__data__.name !== undefined) {
-    this.__update__.name(__data__.name);
-  }
 };
 
 module.exports = panel;
