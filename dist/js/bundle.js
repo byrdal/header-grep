@@ -60,11 +60,29 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 1);
+/******/ 	return __webpack_require__(__webpack_require__.s = 0);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(1);
+
+
+/***/ }),
+/* 1 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var Monkberry = __webpack_require__(2),
+    Panel     = __webpack_require__(3),
+    Listener  = __webpack_require__(4);
+
+const view = Monkberry.render(Panel, document.body);
+const listener = new Listener(view);
+
+/***/ }),
+/* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /**                                      _    _
@@ -462,30 +480,11 @@
 
 
 /***/ }),
-/* 1 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(2);
-
-
-/***/ }),
-/* 2 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-var Monkberry = __webpack_require__(0),
-    Panel     = __webpack_require__(3),
-    Listener  = __webpack_require__(5);
-
-const view = Monkberry.render(Panel, document.body);
-const listener = new Listener(view);
-
-/***/ }),
 /* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var Monkberry = __webpack_require__(0);
-var Toolbar = __requireDefault(__webpack_require__(4));
+var Monkberry = __webpack_require__(2);
+var Toolbar = __requireDefault(__webpack_require__(5));
 function __requireDefault(obj) { return obj && obj.__esModule ? obj.default : obj; }
 
 /**
@@ -498,18 +497,18 @@ function panel() {
   // Create elements
   var custom0 = document.createComment('Toolbar');
   var child0 = {};
-  var div0 = document.createElement('div');
-  var table1 = document.createElement('table');
+  var table0 = document.createElement('table');
+  var tbody1 = document.createElement('tbody');
   var children1 = new Monkberry.Map();
 
   // Construct dom
-  table1.id = "requests";
-  div0.appendChild(table1);
+  table0.appendChild(tbody1);
+  table0.setAttribute("class", "pure-table pure-table-striped request-table");
 
   // Update functions
   this.__update__ = {
     requests: function (requests) {
-      Monkberry.loop(_this, table1, children1, panel_for0, requests);
+      Monkberry.loop(_this, tbody1, children1, panel_for0, requests);
     }
   };
 
@@ -526,7 +525,7 @@ function panel() {
   };
 
   // Set root nodes
-  this.nodes = [custom0, div0];
+  this.nodes = [custom0, table0];
 }
 panel.prototype = Object.create(Monkberry.prototype);
 panel.prototype.constructor = panel;
@@ -547,13 +546,28 @@ function panel_for0() {
   var _this = this;
 
   // Create elements
-  var for0 = document.createComment('for');
+  var tr0 = document.createElement('tr');
+  var td1 = document.createElement('td');
   var children0 = new Monkberry.Map();
+  var td2 = document.createElement('td');
+  var text3 = document.createTextNode('');
+  var text4 = document.createTextNode('');
+
+  // Construct dom
+  td2.appendChild(text3);
+  td2.appendChild(document.createTextNode(" "));
+  td2.appendChild(text4);
+  tr0.appendChild(td1);
+  tr0.appendChild(td2);
 
   // Update functions
   this.__update__ = {
     response: function (response) {
-      Monkberry.loop(_this, for0, children0, panel_for0_for0, response.headers);
+      Monkberry.loop(_this, td1, children0, panel_for0_for0, response.headers);
+    },
+    request: function (request) {
+      text3.textContent = request.method;
+      text4.textContent = request.url;
     }
   };
 
@@ -565,7 +579,7 @@ function panel_for0() {
   };
 
   // Set root nodes
-  this.nodes = [for0];
+  this.nodes = [tr0];
 }
 panel_for0.prototype = Object.create(Monkberry.prototype);
 panel_for0.prototype.constructor = panel_for0;
@@ -573,6 +587,9 @@ panel_for0.pool = [];
 panel_for0.prototype.update = function (__data__) {
   if (__data__.response !== undefined) {
     this.__update__.response(__data__.response);
+  }
+  if (__data__.request !== undefined) {
+    this.__update__.request(__data__.request);
   }
   this.onUpdate(__data__);
 };
@@ -585,30 +602,26 @@ function panel_for0_for0() {
   this.__state__ = {};
 
   // Create elements
-  var tr0 = document.createElement('tr');
-  var td1 = document.createElement('td');
+  var strong0 = document.createElement('strong');
+  var text1 = document.createTextNode('');
   var text2 = document.createTextNode('');
-  var td3 = document.createElement('td');
-  var text4 = document.createTextNode('');
+  var br3 = document.createElement('br');
 
   // Construct dom
-  td1.appendChild(text2);
-  td3.appendChild(text4);
-  tr0.appendChild(td1);
-  tr0.appendChild(td3);
+  strong0.appendChild(text1);
 
   // Update functions
   this.__update__ = {
     name: function (name) {
-      text2.textContent = name;
+      text1.textContent = name;
     },
     value: function (value) {
-      text4.textContent = value;
+      text2.textContent = value;
     }
   };
 
   // Set root nodes
-  this.nodes = [tr0];
+  this.nodes = [strong0, document.createTextNode(": "), text2, br3];
 }
 panel_for0_for0.prototype = Object.create(Monkberry.prototype);
 panel_for0_for0.prototype.constructor = panel_for0_for0;
@@ -627,9 +640,70 @@ module.exports = panel;
 
 /***/ }),
 /* 4 */
+/***/ (function(module, exports) {
+
+function RequestListener(view) {
+    this.requests = [];
+    this.view = view;
+    this.nameRegex = document.querySelector('#nameRegex');
+    this.valueRegex = document.querySelector('#valueRegex');
+    this.addListeners();
+}
+
+RequestListener.prototype.constructor = RequestListener;
+module.exports = RequestListener;
+
+RequestListener.prototype.addListeners = function() {
+    chrome.devtools.network.onNavigated.addListener(
+        function(details) {
+            this.requests = [];
+            this.updateView();
+        }.bind(this)
+    );
+
+    chrome.devtools.network.onRequestFinished.addListener(this.onRequestFinished.bind(this));
+};
+
+RequestListener.prototype.onRequestFinished = function(request) {
+    this.filterHeaderNames(request);
+    this.filterHeaderValues(request);
+    if(request.response.headers.length > 0) {
+        this.requests.push(request);
+        this.updateView();
+    }
+};
+
+RequestListener.prototype.filterHeaderNames = function(request) {
+    var nameRegex = new RegExp(this.nameRegex.value);
+    var filtered = [];
+    for (var i = 0; i < request.response.headers.length; i++) {
+        if (nameRegex.exec(request.response.headers[i].name)) {
+            filtered.push(request.response.headers[i]);
+        }
+    }
+    request.response.headers = filtered;
+};
+
+RequestListener.prototype.filterHeaderValues = function(request) {
+    var valueRegex = new RegExp(this.valueRegex.value);
+    var filtered = [];
+    for (var i = 0; i < request.response.headers.length; i++) {
+        if (valueRegex.exec(request.response.headers[i].value)) {
+            filtered.push(request.response.headers[i]);
+        }
+    }
+    request.response.headers = filtered;
+};
+
+RequestListener.prototype.updateView = function() {
+    this.view.update({ requests: this.requests});
+};
+
+/***/ }),
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var Monkberry = __webpack_require__(0);
+var Monkberry = __webpack_require__(2);
 
 /**
  * @class
@@ -639,19 +713,28 @@ function toolbar() {
 
   // Create elements
   var div0 = document.createElement('div');
-  var input1 = document.createElement('input');
+  var div1 = document.createElement('div');
   var input2 = document.createElement('input');
+  var div3 = document.createElement('div');
+  var input4 = document.createElement('input');
+  var div5 = document.createElement('div');
 
   // Construct dom
-  input1.id = "nameRegex";
-  input1.setAttribute("type", "text");
-  input2.id = "valueRegex";
+  input2.id = "nameRegex";
   input2.setAttribute("type", "text");
-  div0.appendChild(document.createTextNode(" Header name regex "));
-  div0.appendChild(input1);
-  div0.appendChild(document.createTextNode(" Header value regex "));
-  div0.appendChild(input2);
-  div0.setAttribute("class", "toolbar");
+  input2.setAttribute("placeholder", "Header name regex");
+  div1.appendChild(input2);
+  div1.setAttribute("class", "pure-u-1-3");
+  input4.id = "valueRegex";
+  input4.setAttribute("type", "text");
+  input4.setAttribute("placeholder", "Header value regex");
+  div3.appendChild(input4);
+  div3.setAttribute("class", "pure-u-1-3");
+  div5.setAttribute("class", "pure-u-1-3");
+  div0.appendChild(div1);
+  div0.appendChild(div3);
+  div0.appendChild(div5);
+  div0.setAttribute("class", "pure-g toolbar");
 
   // Set root nodes
   this.nodes = [div0];
@@ -664,34 +747,6 @@ toolbar.prototype.update = function (__data__) {
 
 module.exports = toolbar;
 
-
-/***/ }),
-/* 5 */
-/***/ (function(module, exports) {
-
-function RequestListener(view) {
-    this.requests = [];
-    this.view = view;
-    this.addListeners();
-}
-
-RequestListener.prototype.constructor = RequestListener;
-module.exports = RequestListener;
-
-RequestListener.prototype.addListeners = function() {
-    chrome.devtools.network.onNavigated.addListener(
-        function(details) {
-            this.requests = [];
-        }.bind(this)
-    );
-
-    chrome.devtools.network.onRequestFinished.addListener(
-        function(request) {
-            this.requests.push(request);
-            this.view.update({ requests: this.requests});
-        }.bind(this)
-    );
-};
 
 /***/ })
 /******/ ]);

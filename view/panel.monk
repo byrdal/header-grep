@@ -1,12 +1,18 @@
 {% import Toolbar from './toolbar.monk' %}
 
 <Toolbar/>
-<div>
-    <table id="requests">
-        {% for requests %}
+
+<table class="pure-table pure-table-striped request-table">
+    <tbody>
+    {% for requests %}
+    <tr>
+        <td>
             {% for response.headers %}
-                <tr><td>{{ name }}</td><td>{{ value }}</td></tr>
+            <strong>{{ name }}</strong>: {{ value }}<br/>
             {% endfor %}
-        {% endfor %}
-    </table>
-</div>
+        </td>
+        <td>{{ request.method }} &nbsp; {{ request.url }}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>

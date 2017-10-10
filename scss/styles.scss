@@ -8,3 +8,11 @@ body {
   border-bottom: 1px solid darkgray;
   padding: 4px;
 }
+
+.request-table {
+  overflow-x: scroll;
+  td {
+    vertical-align: text-top;
+    white-space: nowrap;
+  }
+}
