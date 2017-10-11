@@ -60,29 +60,11 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 0);
+/******/ 	return __webpack_require__(__webpack_require__.s = 1);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(1);
-
-
-/***/ }),
-/* 1 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var Monkberry = __webpack_require__(2),
-    Panel     = __webpack_require__(3),
-    Listener  = __webpack_require__(4);
-
-const view = Monkberry.render(Panel, document.body);
-const listener = new Listener(view);
-
-/***/ }),
-/* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /**                                      _    _
@@ -480,11 +462,29 @@ const listener = new Listener(view);
 
 
 /***/ }),
+/* 1 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(2);
+
+
+/***/ }),
+/* 2 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var Monkberry = __webpack_require__(0),
+    Panel     = __webpack_require__(3),
+    Listener  = __webpack_require__(5);
+
+const view = Monkberry.render(Panel, document.body);
+const listener = new Listener(view);
+
+/***/ }),
 /* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var Monkberry = __webpack_require__(2);
-var Toolbar = __requireDefault(__webpack_require__(5));
+var Monkberry = __webpack_require__(0);
+var Toolbar = __requireDefault(__webpack_require__(4));
 function __requireDefault(obj) { return obj && obj.__esModule ? obj.default : obj; }
 
 /**
@@ -640,6 +640,69 @@ module.exports = panel;
 
 /***/ }),
 /* 4 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var Monkberry = __webpack_require__(0);
+
+/**
+ * @class
+ */
+function toolbar() {
+  Monkberry.call(this);
+
+  // Create elements
+  var div0 = document.createElement('div');
+  var div1 = document.createElement('div');
+  var select2 = document.createElement('select');
+  var option3 = document.createElement('option');
+  var option4 = document.createElement('option');
+  var div5 = document.createElement('div');
+  var input6 = document.createElement('input');
+  var div7 = document.createElement('div');
+  var input8 = document.createElement('input');
+
+  // Construct dom
+  option3.appendChild(document.createTextNode("Reponse headers"));
+  option3.value = "response";
+  option3.selected = true;
+  option4.appendChild(document.createTextNode("Request headers"));
+  option4.value = "request";
+  select2.appendChild(option3);
+  select2.appendChild(option4);
+  select2.setAttribute("class", "pure-input-1");
+  div1.appendChild(select2);
+  div1.setAttribute("class", "pure-u-1-3");
+  input6.id = "nameRegex";
+  input6.setAttribute("type", "text");
+  input6.setAttribute("class", "pure-input-1");
+  input6.setAttribute("placeholder", "Header name regex");
+  div5.appendChild(input6);
+  div5.setAttribute("class", "pure-u-1-3");
+  input8.id = "valueRegex";
+  input8.setAttribute("type", "text");
+  input8.setAttribute("class", "pure-input-1");
+  input8.setAttribute("placeholder", "Header value regex");
+  div7.appendChild(input8);
+  div7.setAttribute("class", "pure-u-1-3");
+  div0.appendChild(div1);
+  div0.appendChild(div5);
+  div0.appendChild(div7);
+  div0.setAttribute("class", "pure-g pure-form toolbar");
+
+  // Set root nodes
+  this.nodes = [div0];
+}
+toolbar.prototype = Object.create(Monkberry.prototype);
+toolbar.prototype.constructor = toolbar;
+toolbar.pool = [];
+toolbar.prototype.update = function (__data__) {
+};
+
+module.exports = toolbar;
+
+
+/***/ }),
+/* 5 */
 /***/ (function(module, exports) {
 
 function RequestListener(view) {
@@ -698,55 +761,6 @@ RequestListener.prototype.filterHeaderValues = function(request) {
 RequestListener.prototype.updateView = function() {
     this.view.update({ requests: this.requests});
 };
-
-/***/ }),
-/* 5 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var Monkberry = __webpack_require__(2);
-
-/**
- * @class
- */
-function toolbar() {
-  Monkberry.call(this);
-
-  // Create elements
-  var div0 = document.createElement('div');
-  var div1 = document.createElement('div');
-  var input2 = document.createElement('input');
-  var div3 = document.createElement('div');
-  var input4 = document.createElement('input');
-  var div5 = document.createElement('div');
-
-  // Construct dom
-  input2.id = "nameRegex";
-  input2.setAttribute("type", "text");
-  input2.setAttribute("placeholder", "Header name regex");
-  div1.appendChild(input2);
-  div1.setAttribute("class", "pure-u-1-3");
-  input4.id = "valueRegex";
-  input4.setAttribute("type", "text");
-  input4.setAttribute("placeholder", "Header value regex");
-  div3.appendChild(input4);
-  div3.setAttribute("class", "pure-u-1-3");
-  div5.setAttribute("class", "pure-u-1-3");
-  div0.appendChild(div1);
-  div0.appendChild(div3);
-  div0.appendChild(div5);
-  div0.setAttribute("class", "pure-g toolbar");
-
-  // Set root nodes
-  this.nodes = [div0];
-}
-toolbar.prototype = Object.create(Monkberry.prototype);
-toolbar.prototype.constructor = toolbar;
-toolbar.pool = [];
-toolbar.prototype.update = function (__data__) {
-};
-
-module.exports = toolbar;
-
 
 /***/ })
 /******/ ]);
