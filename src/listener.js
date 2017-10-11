@@ -3,6 +3,7 @@ var Filter = require('./filter');
 function RequestListener(view) {
     this.requests = [];
     this.view = view;
+    this.headerSelect = document.querySelector('#headerSelect');
     this.nameRegex = document.querySelector('#nameRegex');
     this.valueRegex = document.querySelector('#valueRegex');
     this.filter = new Filter();
@@ -24,14 +25,16 @@ RequestListener.prototype.addListeners = function() {
 };
 
 RequestListener.prototype.onRequestFinished = function(request) {
-    request.response.headers = this.filter.filterHeaders(request.response.headers, 'name', this.nameRegex.value);
-    request.response.headers = this.filter.filterHeaders(request.response.headers, 'value', this.valueRegex.value);
-    if(request.response.headers.length > 0) {
+    console.log(this.headerSelect.value);
+    request[this.headerSelect.value].headers = this.filter.filterHeaders(request[this.headerSelect.value].headers, 'name', this.nameRegex.value);
+    request[this.headerSelect.value].headers = this.filter.filterHeaders(request[this.headerSelect.value].headers, 'value', this.valueRegex.value);
+    if(request[this.headerSelect.value].headers.length > 0) {
+        request.headers = request[this.headerSelect.value].headers;
         this.requests.push(request);
         this.updateView();
     }
 };
 
 RequestListener.prototype.updateView = function() {
-    this.view.update({ requests: this.requests});
+    this.view.update({ requests: this.requests });
 };

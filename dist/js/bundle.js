@@ -562,8 +562,8 @@ function panel_for0() {
 
   // Update functions
   this.__update__ = {
-    response: function (response) {
-      Monkberry.loop(_this, td1, children0, panel_for0_for0, response.headers);
+    headers: function (headers) {
+      Monkberry.loop(_this, td1, children0, panel_for0_for0, headers);
     },
     request: function (request) {
       text3.textContent = request.method;
@@ -585,8 +585,8 @@ panel_for0.prototype = Object.create(Monkberry.prototype);
 panel_for0.prototype.constructor = panel_for0;
 panel_for0.pool = [];
 panel_for0.prototype.update = function (__data__) {
-  if (__data__.response !== undefined) {
-    this.__update__.response(__data__.response);
+  if (__data__.headers !== undefined) {
+    this.__update__.headers(__data__.headers);
   }
   if (__data__.request !== undefined) {
     this.__update__.request(__data__.request);
@@ -669,6 +669,7 @@ function toolbar() {
   option4.value = "request";
   select2.appendChild(option3);
   select2.appendChild(option4);
+  select2.id = "headerSelect";
   select2.setAttribute("class", "pure-input-1");
   div1.appendChild(select2);
   div1.setAttribute("class", "pure-u-1-3");
@@ -710,6 +711,7 @@ var Filter = __webpack_require__(6);
 function RequestListener(view) {
     this.requests = [];
     this.view = view;
+    this.headerSelect = document.querySelector('#headerSelect');
     this.nameRegex = document.querySelector('#nameRegex');
     this.valueRegex = document.querySelector('#valueRegex');
     this.filter = new Filter();
@@ -731,16 +733,18 @@ RequestListener.prototype.addListeners = function() {
 };
 
 RequestListener.prototype.onRequestFinished = function(request) {
-    request.response.headers = this.filter.filterHeaders(request.response.headers, 'name', this.nameRegex.value);
-    request.response.headers = this.filter.filterHeaders(request.response.headers, 'value', this.valueRegex.value);
-    if(request.response.headers.length > 0) {
+    console.log(this.headerSelect.value);
+    request[this.headerSelect.value].headers = this.filter.filterHeaders(request[this.headerSelect.value].headers, 'name', this.nameRegex.value);
+    request[this.headerSelect.value].headers = this.filter.filterHeaders(request[this.headerSelect.value].headers, 'value', this.valueRegex.value);
+    if(request[this.headerSelect.value].headers.length > 0) {
+        request.headers = request[this.headerSelect.value].headers;
         this.requests.push(request);
         this.updateView();
     }
 };
 
 RequestListener.prototype.updateView = function() {
-    this.view.update({ requests: this.requests});
+    this.view.update({ requests: this.requests });
 };
 
 /***/ }),

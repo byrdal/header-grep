@@ -7,7 +7,7 @@
     {% for requests %}
     <tr>
         <td>
-            {% for response.headers %}
+            {% for headers %}
             <strong>{{ name }}</strong>: {{ value }}<br/>
             {% endfor %}
         </td>
