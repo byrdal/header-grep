@@ -703,13 +703,16 @@ module.exports = toolbar;
 
 /***/ }),
 /* 5 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
+
+var Filter = __webpack_require__(6);
 
 function RequestListener(view) {
     this.requests = [];
     this.view = view;
     this.nameRegex = document.querySelector('#nameRegex');
     this.valueRegex = document.querySelector('#valueRegex');
+    this.filter = new Filter();
     this.addListeners();
 }
 
@@ -728,38 +731,37 @@ RequestListener.prototype.addListeners = function() {
 };
 
 RequestListener.prototype.onRequestFinished = function(request) {
-    this.filterHeaderNames(request);
-    this.filterHeaderValues(request);
+    request.response.headers = this.filter.filterHeaders(request.response.headers, 'name', this.nameRegex.value);
+    request.response.headers = this.filter.filterHeaders(request.response.headers, 'value', this.valueRegex.value);
     if(request.response.headers.length > 0) {
         this.requests.push(request);
         this.updateView();
     }
 };
 
-RequestListener.prototype.filterHeaderNames = function(request) {
-    var nameRegex = new RegExp(this.nameRegex.value);
-    var filtered = [];
-    for (var i = 0; i < request.response.headers.length; i++) {
-        if (nameRegex.exec(request.response.headers[i].name)) {
-            filtered.push(request.response.headers[i]);
-        }
-    }
-    request.response.headers = filtered;
-};
-
-RequestListener.prototype.filterHeaderValues = function(request) {
-    var valueRegex = new RegExp(this.valueRegex.value);
-    var filtered = [];
-    for (var i = 0; i < request.response.headers.length; i++) {
-        if (valueRegex.exec(request.response.headers[i].value)) {
-            filtered.push(request.response.headers[i]);
-        }
-    }
-    request.response.headers = filtered;
-};
-
 RequestListener.prototype.updateView = function() {
     this.view.update({ requests: this.requests});
+};
+
+/***/ }),
+/* 6 */
+/***/ (function(module, exports) {
+
+function Filter() {
+}
+
+Filter.prototype.constructor = Filter;
+module.exports = Filter;
+
+Filter.prototype.filterHeaders = function(headers, property, regex) {
+    var regexp = new RegExp(regex);
+    var filtered = [];
+    for (var i = 0; i < headers.length; i++) {
+        if (regexp.exec(headers[i][property])) {
+            filtered.push(headers[i]);
+        }
+    }
+    return filtered;
 };
 
 /***/ })
