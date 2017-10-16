@@ -46,8 +46,6 @@ RequestListener.prototype.addToResult = function(request) {
         }
         this.headerMap[propertyName].requests.push({ method: request.request.method, url: request.request.url });
     }
-
-    console.log(this.headerMap);
 };
 
 RequestListener.prototype.updateView = function() {

@@ -14,9 +14,15 @@ body {
   padding: 4px;
 }
 
-.request-header:before {
-  content: '\25BA';
-  margin-right: 4px;
+.request-header {
+  :before {
+    content: '\25BA';
+    margin-right: 4px;
+  }
+  &.expanded :before {
+    content: '\25BC';
+    margin-right: 4px;
+  }
 }
 
 .badge {
