@@ -2,17 +2,22 @@
 
 <Toolbar/>
 
-<table class="pure-table pure-table-striped request-table">
-    <tbody>
-    {% for requests %}
-    <tr>
-        <td>
-            {% for headers %}
-            <strong>{{ name }}</strong>: {{ value }}<br/>
+{% for headerMap %}
+<div class="header-root">
+    <span class="request-header"><strong>{{ header.name }}</strong>: {{ header.value }} </span><span class="badge">{{ requests | count }}</span>
+    <div class="request-list hidden">
+        <table class="pure-table pure-table-striped request-table">
+            <tbody>
+            {% for requests %}
+            <tr>
+                <td>{{ method }}</td>
+                <td>{{ url }}</td>
+            </tr>
             {% endfor %}
-        </td>
-        <td>{{ request.method }} &nbsp; {{ request.url }}</td>
-    </tr>
-    {% endfor %}
-    </tbody>
-</table>
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endfor %}
+
+

@@ -9,7 +9,31 @@ body {
   padding: 4px;
 }
 
+.header-root {
+  border: 1px solid #f2f2f2;
+  padding: 4px;
+}
+
+.request-header:before {
+  content: '\25BA';
+  margin-right: 4px;
+}
+
+.badge {
+  margin: 0 1em;
+  padding: 0.08em 1em;
+  border-radius: 8px;
+  background-color: #129FEA;
+  font-size: 0.65em;
+  color: white;
+}
+
+.collapsed {
+  display: none;
+}
+
 .request-table {
+  width: 100%;
   overflow-x: scroll;
   td {
     vertical-align: text-top;
