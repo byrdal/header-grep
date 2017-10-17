@@ -3,8 +3,10 @@
     <Toolbar/>
 
     {% for headerMap %}
-    <div class="header-root">
-        <span class="request-header"><strong>{{ header.name }}</strong>: {{ header.value }} </span><span class="badge">{{ requests | count }}</span>
+    <div>
+        <div class="header-root">
+            <span class="request-header"><strong>{{ header.name }}</strong>: {{ header.value }} </span><span class="badge">{{ requests | count }}</span>
+        </div>
         <div class="request-list collapsed">
             <table class="pure-table pure-table-striped request-table">
                 <tbody>

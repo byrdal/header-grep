@@ -10,8 +10,9 @@ const filters = {
 };
 
 var toggleRequestList = function(event) {
-    this.querySelector('.request-header').classList.toggle("expanded");
-    this.querySelector('.request-list').classList.toggle('collapsed');
+    console.log(this);
+    this.parentNode.querySelector('.request-header').classList.toggle("expanded");
+    this.parentNode.querySelector('.request-list').classList.toggle('collapsed');
 };
 
 const view = Monkberry.render(Panel, document.body, {filters: filters});

@@ -484,8 +484,9 @@ const filters = {
 };
 
 var toggleRequestList = function(event) {
-    this.querySelector('.request-header').classList.toggle("expanded");
-    this.querySelector('.request-list').classList.toggle('collapsed');
+    console.log(this);
+    this.parentNode.querySelector('.request-header').classList.toggle("expanded");
+    this.parentNode.querySelector('.request-list').classList.toggle('collapsed');
 };
 
 const view = Monkberry.render(Panel, document.body, {filters: filters});
@@ -1069,43 +1070,45 @@ function panel_for0() {
 
   // Create elements
   var div0 = document.createElement('div');
-  var span1 = document.createElement('span');
-  var strong2 = document.createElement('strong');
-  var text3 = document.createTextNode('');
+  var div1 = document.createElement('div');
+  var span2 = document.createElement('span');
+  var strong3 = document.createElement('strong');
   var text4 = document.createTextNode('');
-  var span5 = document.createElement('span');
-  var text6 = document.createTextNode('');
-  var div7 = document.createElement('div');
-  var table8 = document.createElement('table');
-  var tbody9 = document.createElement('tbody');
+  var text5 = document.createTextNode('');
+  var span6 = document.createElement('span');
+  var text7 = document.createTextNode('');
+  var div8 = document.createElement('div');
+  var table9 = document.createElement('table');
+  var tbody10 = document.createElement('tbody');
   var children0 = new Monkberry.Map();
 
   // Construct dom
-  strong2.appendChild(text3);
-  span1.appendChild(strong2);
-  span1.appendChild(document.createTextNode(": "));
-  span1.appendChild(text4);
-  span1.setAttribute("class", "request-header");
-  span5.appendChild(text6);
-  span5.setAttribute("class", "badge");
-  table8.appendChild(tbody9);
-  table8.setAttribute("class", "pure-table pure-table-striped request-table");
-  div7.appendChild(table8);
-  div7.setAttribute("class", "request-list collapsed");
-  div0.appendChild(span1);
-  div0.appendChild(span5);
-  div0.appendChild(div7);
-  div0.setAttribute("class", "header-root");
+  strong3.appendChild(text4);
+  span2.appendChild(strong3);
+  span2.appendChild(document.createTextNode(": "));
+  span2.appendChild(text5);
+  span2.setAttribute("class", "request-header");
+  span6.appendChild(text7);
+  span6.setAttribute("class", "badge");
+  div1.appendChild(span2);
+  div1.appendChild(span6);
+  div1.setAttribute("class", "header-root");
+  table9.appendChild(tbody10);
+  table9.setAttribute("class", "pure-table pure-table-striped request-table");
+  div8.appendChild(table9);
+  div8.setAttribute("class", "request-list collapsed");
+  div0.appendChild(div1);
+  div0.appendChild(div8);
 
   // Update functions
   this.__update__ = {
     header: function (header) {
-      text3.textContent = header.name;
-      text4.textContent = header.value;
+      text4.textContent = header.name;
+      text5.textContent = header.value;
     },
     requests: function (requests) {
-      text6.textContent = _this.filters.count(requests);
-      Monkberry.loop(_this, tbody9, children0, panel_for0_for0, requests);
+      text7.textContent = _this.filters.count(requests);
+      Monkberry.loop(_this, tbody10, children0, panel_for0_for0, requests);
     }
   };
 
