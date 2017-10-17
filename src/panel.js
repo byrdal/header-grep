@@ -10,7 +10,6 @@ const filters = {
 };
 
 var toggleRequestList = function(event) {
-    console.log(this);
     this.parentNode.querySelector('.request-header').classList.toggle("expanded");
     this.parentNode.querySelector('.request-list').classList.toggle('collapsed');
 };
