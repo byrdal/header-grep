@@ -8,7 +8,6 @@ function RequestListener(view) {
     this.nameRegex = document.querySelector('#nameRegex');
     this.valueRegex = document.querySelector('#valueRegex');
     this.filter = new Filter();
-    this.addListeners();
 }
 
 RequestListener.prototype.constructor = RequestListener;
