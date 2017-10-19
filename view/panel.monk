@@ -1,18 +1,24 @@
 {% import Toolbar from './toolbar.monk' %}
+<div>
+    <Toolbar/>
 
-<Toolbar/>
-
-<table class="pure-table pure-table-striped request-table">
-    <tbody>
-    {% for requests %}
-    <tr>
-        <td>
-            {% for headers %}
-            <strong>{{ name }}</strong>: {{ value }}<br/>
-            {% endfor %}
-        </td>
-        <td>{{ request.method }} &nbsp; {{ request.url }}</td>
-    </tr>
+    {% for headerMap %}
+    <div>
+        <div class="header-root">
+            <span class="request-header"><strong>{{ header.name }}</strong>: {{ header.value }} </span><span class="badge">{{ requests | count }}</span>
+        </div>
+        <div class="request-list collapsed">
+            <table class="pure-table pure-table-striped request-table">
+                <tbody>
+                {% for requests %}
+                <tr>
+                    <td>{{ method }}</td>
+                    <td>{{ url }}</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
     {% endfor %}
-    </tbody>
-</table>
+</div>
