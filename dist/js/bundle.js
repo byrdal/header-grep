@@ -475,7 +475,7 @@ module.exports = __webpack_require__(2);
 var Monkberry       = __webpack_require__(0),
     MonkberryEvents = __webpack_require__(3),
     Panel           = __webpack_require__(6),
-    Listener        = __webpack_require__(8);
+    RequestListener = __webpack_require__(8);
 
 const filters = {
     count: function(array) {
@@ -488,9 +488,11 @@ var toggleRequestList = function(event) {
     this.parentNode.querySelector('.request-list').classList.toggle('collapsed');
 };
 
-const view = Monkberry.render(Panel, document.body, {filters: filters});
+var view = Monkberry.render(Panel, document.body, {filters: filters});
 view.on('click', '.header-root', toggleRequestList, false);
-const listener = new Listener(view);
+
+var listener = new RequestListener(view);
+listener.addListeners();
 
 /***/ }),
 /* 3 */
@@ -1260,7 +1262,6 @@ function RequestListener(view) {
     this.nameRegex = document.querySelector('#nameRegex');
     this.valueRegex = document.querySelector('#valueRegex');
     this.filter = new Filter();
-    this.addListeners();
 }
 
 RequestListener.prototype.constructor = RequestListener;
