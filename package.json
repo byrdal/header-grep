@@ -19,7 +19,7 @@
     "grep"
   ],
   "author": "Kasper Byrdal Nielsen",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/byrdal/header-grep/issues"
   },
