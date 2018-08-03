@@ -32,5 +32,11 @@ npm install
 npm run build
 ```
 
+#### Docker
+You can also use docker + docker-compose to build the distributable files
+```
+docker-compose run --rm toolkit npm install && docker-compose run --rm toolkit npm run build
+```
+
 ## License
 [MIT](https://github.com/byrdal/header-grep/blob/master/LICENSE)
