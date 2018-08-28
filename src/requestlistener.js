@@ -2,9 +2,9 @@ var Filter = require('./filter');
 
 function RequestListener(view) {
     this.requests = [];
-    this.headerMap = {};
+    this.filtered = {};
     this.view = view;
-    this.headerSelect = document.querySelector('#headerSelect');
+    this.requestResponseSelect = document.querySelector('#requestResponseSelect');
     this.nameRegex = document.querySelector('#nameRegex');
     this.valueRegex = document.querySelector('#valueRegex');
     this.filter = new Filter();
@@ -16,37 +16,61 @@ module.exports = RequestListener;
 RequestListener.prototype.addListeners = function() {
     chrome.devtools.network.onNavigated.addListener(
         function(details) {
-            this.headerMap = {};
             this.requests = [];
-            this.updateView();
+            this.resetView();
         }.bind(this)
     );
 
     chrome.devtools.network.onRequestFinished.addListener(this.onRequestFinished.bind(this));
 };
 
+RequestListener.prototype.resetView = function() {
+    this.filtered = {};
+    this.updateView();
+};
+
 RequestListener.prototype.onRequestFinished = function(request) {
-    request[this.headerSelect.value].headers = this.filter.filterHeaders(request[this.headerSelect.value].headers, 'name', this.nameRegex.value);
-    request[this.headerSelect.value].headers = this.filter.filterHeaders(request[this.headerSelect.value].headers, 'value', this.valueRegex.value);
-    if(request[this.headerSelect.value].headers.length > 0) {
-        this.addToResult(request);
-        request.headers = request[this.headerSelect.value].headers;
-        this.requests.push(request);
-        this.updateView();
+    this.requests.push(request);
+    this.filterRequest(request);
+};
+
+RequestListener.prototype.filterRequest = function(request) {
+    var filtered = [];
+    if (this.requestResponseSelect.value === 'both') {
+        filtered = this.filterHeaders(request['request'].headers.concat(request['response'].headers));
+    } else {
+        filtered = this.filterHeaders(request[this.requestResponseSelect.value].headers);
+    }
+
+    if (filtered.length > 0) {
+        this.updateView(request, filtered);
     }
 };
 
-RequestListener.prototype.addToResult = function(request) {
-    var headers = request[this.headerSelect.value].headers;
-    for (var i = 0; i < headers.length; i++) {
-        var propertyName = headers[i].name + ': ' + headers[i].value;
-        if(!this.headerMap.hasOwnProperty(propertyName)) {
-            this.headerMap[propertyName] = { header: { name: headers[i].name, value: headers[i].value }, requests: [] };
+RequestListener.prototype.filterHeaders = function(headers) {
+    headers = this.filter.filterHeaders(headers, 'name', this.nameRegex.value);
+    headers = this.filter.filterHeaders(headers, 'value', this.valueRegex.value);
+    return headers;
+};
+
+RequestListener.prototype.updateView = function(request, headers) {
+    if (request && headers) {
+        for (var i = 0; i < headers.length; i++) {
+            var propertyName = headers[i].name + ': ' + headers[i].value;
+            if(!this.filtered.hasOwnProperty(propertyName)) {
+                this.filtered[propertyName] = { header: { name: headers[i].name, value: headers[i].value }, requests: [] };
+            }
+            this.filtered[propertyName].requests.push({ method: request.request.method, url: request.request.url });
         }
-        this.headerMap[propertyName].requests.push({ method: request.request.method, url: request.request.url });
     }
+
+    this.view.update({ requests: this.requests, headerMap: this.filtered });
 };
 
-RequestListener.prototype.updateView = function() {
-    this.view.update({ requests: this.requests, headerMap: this.headerMap });
+RequestListener.prototype.onFilterChange = function() {
+    this.resetView();
+
+    this.requests.forEach(function (request) {
+        this.filterRequest(request);
+    }, this);
 };

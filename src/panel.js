@@ -19,3 +19,7 @@ view.on('click', '.header-root', toggleRequestList, false);
 
 var listener = new RequestListener(view);
 listener.addListeners();
+
+view.on('change', '#nameRegex', listener.onFilterChange.bind(listener), false);
+view.on('change', '#valueRegex', listener.onFilterChange.bind(listener), false);
+view.on('change', '#requestResponseSelect', listener.onFilterChange.bind(listener), false);
