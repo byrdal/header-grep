@@ -1,7 +1,8 @@
 <div class="pure-g pure-form toolbar">
     <div class="pure-u-1-3">
-        <select id="headerSelect" class="pure-input-1">
-            <option value="response" selected>Reponse headers</option>
+        <select id="requestResponseSelect" class="pure-input-1">
+            <option value="both" selected>Request & Reponse headers</option>
+            <option value="response">Reponse headers</option>
             <option value="request">Request headers</option>
         </select>
     </div>

@@ -494,6 +494,11 @@ view.on('click', '.header-root', toggleRequestList, false);
 var listener = new RequestListener(view);
 listener.addListeners();
 
+view.on('change', '#nameRegex', listener.onFilterChange.bind(listener), false);
+view.on('change', '#valueRegex', listener.onFilterChange.bind(listener), false);
+view.on('change', '#requestResponseSelect', listener.onFilterChange.bind(listener), false);
+
+
 /***/ }),
 /* 3 */
 /***/ (function(module, exports, __webpack_require__) {
@@ -1202,38 +1207,42 @@ function toolbar() {
   var select2 = document.createElement('select');
   var option3 = document.createElement('option');
   var option4 = document.createElement('option');
-  var div5 = document.createElement('div');
-  var input6 = document.createElement('input');
-  var div7 = document.createElement('div');
-  var input8 = document.createElement('input');
+  var option5 = document.createElement('option');
+  var div6 = document.createElement('div');
+  var input7 = document.createElement('input');
+  var div8 = document.createElement('div');
+  var input9 = document.createElement('input');
 
   // Construct dom
-  option3.appendChild(document.createTextNode("Reponse headers"));
-  option3.value = "response";
+  option3.appendChild(document.createTextNode("Request & Reponse headers"));
+  option3.value = "both";
   option3.selected = true;
-  option4.appendChild(document.createTextNode("Request headers"));
-  option4.value = "request";
+  option4.appendChild(document.createTextNode("Reponse headers"));
+  option4.value = "response";
+  option5.appendChild(document.createTextNode("Request headers"));
+  option5.value = "request";
   select2.appendChild(option3);
   select2.appendChild(option4);
-  select2.id = "headerSelect";
+  select2.appendChild(option5);
+  select2.id = "requestResponseSelect";
   select2.setAttribute("class", "pure-input-1");
   div1.appendChild(select2);
   div1.setAttribute("class", "pure-u-1-3");
-  input6.id = "nameRegex";
-  input6.setAttribute("type", "text");
-  input6.setAttribute("class", "pure-input-1");
-  input6.setAttribute("placeholder", "Header name regex");
-  div5.appendChild(input6);
-  div5.setAttribute("class", "pure-u-1-3");
-  input8.id = "valueRegex";
-  input8.setAttribute("type", "text");
-  input8.setAttribute("class", "pure-input-1");
-  input8.setAttribute("placeholder", "Header value regex");
-  div7.appendChild(input8);
-  div7.setAttribute("class", "pure-u-1-3");
+  input7.id = "nameRegex";
+  input7.setAttribute("type", "text");
+  input7.setAttribute("class", "pure-input-1");
+  input7.setAttribute("placeholder", "Header name regex");
+  div6.appendChild(input7);
+  div6.setAttribute("class", "pure-u-1-3");
+  input9.id = "valueRegex";
+  input9.setAttribute("type", "text");
+  input9.setAttribute("class", "pure-input-1");
+  input9.setAttribute("placeholder", "Header value regex");
+  div8.appendChild(input9);
+  div8.setAttribute("class", "pure-u-1-3");
   div0.appendChild(div1);
-  div0.appendChild(div5);
-  div0.appendChild(div7);
+  div0.appendChild(div6);
+  div0.appendChild(div8);
   div0.setAttribute("class", "pure-g pure-form toolbar");
 
   // Set root nodes
@@ -1256,9 +1265,9 @@ var Filter = __webpack_require__(9);
 
 function RequestListener(view) {
     this.requests = [];
-    this.headerMap = {};
+    this.filtered = {};
     this.view = view;
-    this.headerSelect = document.querySelector('#headerSelect');
+    this.requestResponseSelect = document.querySelector('#requestResponseSelect');
     this.nameRegex = document.querySelector('#nameRegex');
     this.valueRegex = document.querySelector('#valueRegex');
     this.filter = new Filter();
@@ -1270,39 +1279,63 @@ module.exports = RequestListener;
 RequestListener.prototype.addListeners = function() {
     chrome.devtools.network.onNavigated.addListener(
         function(details) {
-            this.headerMap = {};
             this.requests = [];
-            this.updateView();
+            this.resetView();
         }.bind(this)
     );
 
     chrome.devtools.network.onRequestFinished.addListener(this.onRequestFinished.bind(this));
 };
 
+RequestListener.prototype.resetView = function() {
+    this.filtered = {};
+    this.updateView();
+};
+
 RequestListener.prototype.onRequestFinished = function(request) {
-    request[this.headerSelect.value].headers = this.filter.filterHeaders(request[this.headerSelect.value].headers, 'name', this.nameRegex.value);
-    request[this.headerSelect.value].headers = this.filter.filterHeaders(request[this.headerSelect.value].headers, 'value', this.valueRegex.value);
-    if(request[this.headerSelect.value].headers.length > 0) {
-        this.addToResult(request);
-        request.headers = request[this.headerSelect.value].headers;
-        this.requests.push(request);
-        this.updateView();
+    this.requests.push(request);
+    this.filterRequest(request);
+};
+
+RequestListener.prototype.filterRequest = function(request) {
+    var filtered = [];
+    if (this.requestResponseSelect.value === 'both') {
+        filtered = this.filterHeaders(request['request'].headers.concat(request['response'].headers));
+    } else {
+        filtered = this.filterHeaders(request[this.requestResponseSelect.value].headers);
+    }
+
+    if (filtered.length > 0) {
+        this.updateView(request, filtered);
     }
 };
 
-RequestListener.prototype.addToResult = function(request) {
-    var headers = request[this.headerSelect.value].headers;
-    for (var i = 0; i < headers.length; i++) {
-        var propertyName = headers[i].name + ': ' + headers[i].value;
-        if(!this.headerMap.hasOwnProperty(propertyName)) {
-            this.headerMap[propertyName] = { header: { name: headers[i].name, value: headers[i].value }, requests: [] };
+RequestListener.prototype.filterHeaders = function(headers) {
+    headers = this.filter.filterHeaders(headers, 'name', this.nameRegex.value);
+    headers = this.filter.filterHeaders(headers, 'value', this.valueRegex.value);
+    return headers;
+};
+
+RequestListener.prototype.updateView = function(request, headers) {
+    if (request && headers) {
+        for (var i = 0; i < headers.length; i++) {
+            var propertyName = headers[i].name + ': ' + headers[i].value;
+            if(!this.filtered.hasOwnProperty(propertyName)) {
+                this.filtered[propertyName] = { header: { name: headers[i].name, value: headers[i].value }, requests: [] };
+            }
+            this.filtered[propertyName].requests.push({ method: request.request.method, url: request.request.url });
         }
-        this.headerMap[propertyName].requests.push({ method: request.request.method, url: request.request.url });
     }
+
+    this.view.update({ requests: this.requests, headerMap: this.filtered });
 };
 
-RequestListener.prototype.updateView = function() {
-    this.view.update({ requests: this.requests, headerMap: this.headerMap });
+RequestListener.prototype.onFilterChange = function() {
+    this.resetView();
+
+    this.requests.forEach(function (request) {
+        this.filterRequest(request);
+    }, this);
 };
 
 /***/ }),

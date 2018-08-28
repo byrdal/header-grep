@@ -3,7 +3,7 @@
 
   "name": "Header-Grep",
   "description": "This extension allows grepping header names and values of all requests",
-  "version": "1.0.0",
+  "version": "1.0.1",
 
   "icons": {
     "48": "icon48.png",
