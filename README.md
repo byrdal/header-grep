@@ -24,7 +24,7 @@ The easiest way to install the extension is through the [Chrome web store](https
 ## Building
 #### Install dependencies
 ```
-npm install
+npm ci
 ```
 
 #### Build dist
@@ -35,7 +35,7 @@ npm run build
 #### Docker
 You can also use docker + docker-compose to build the distributable files
 ```
-docker-compose run --rm toolkit npm install && docker-compose run --rm toolkit npm run build
+docker-compose run --rm toolkit npm ci && docker-compose run --rm toolkit npm run build
 ```
 
 ## License
