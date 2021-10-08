@@ -1,42 +1,54 @@
 body {
-  background-color: #ffffff;
-  margin: 0;
-  padding: 0; }
+    background-color: #ffffff;
+    margin: 0;
+    padding: 0
+}
 
 .toolbar {
-  background-color: #efefef;
-  border-bottom: 1px solid darkgray;
-  padding: 4px; }
+    background-color: #efefef;
+    border-bottom: 1px solid darkgray;
+    padding: 4px
+}
 
 .header-root {
-  padding: 4px; }
+    padding: 4px
+}
 
 .request-header :before {
-  content: '\25BA';
-  margin-right: 4px; }
+    content: '\25BA';
+    margin-right: 4px
+}
 
 .request-header.expanded :before {
-  content: '\25BC';
-  margin-right: 4px; }
+    content: '\25BC';
+    margin-right: 4px
+}
 
 .badge {
-  margin: 0 1em;
-  padding: 0.08em 1em;
-  border-radius: 8px;
-  background-color: #129FEA;
-  font-size: 0.65em;
-  color: white; }
+    margin: 0 1em;
+    padding: 0.08em 1em;
+    border-radius: 8px;
+    background-color: #129FEA;
+    font-size: 0.65em;
+    color: white
+}
 
 .collapsed {
-  display: none; }
+    display: none
+}
 
 .request-table {
-  width: 100%;
-  margin-left: 20px;
-  overflow-x: scroll; }
-  .request-table td {
+    width: 100%;
+    margin-left: 20px;
+    overflow-x: scroll
+}
+
+.request-table td {
     vertical-align: text-top;
-    white-space: nowrap; }
-  .request-table td:last-child {
-    width: 100%; }
+    white-space: nowrap
+}
+
+.request-table td:last-child {
+    width: 100%
+}
 
