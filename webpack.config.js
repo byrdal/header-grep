@@ -1,8 +1,6 @@
 const path = require('path'),
       MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
-const devMode = process.env.NODE_ENV !== "production";
-
 module.exports = [
     {
         mode: 'production',
@@ -23,7 +21,7 @@ module.exports = [
                 {
                     test: /\.scss$/,
                     use: [
-                        devMode ? 'style-loader' : MiniCssExtractPlugin.loader,
+                        MiniCssExtractPlugin.loader,
                         {
                             loader: "css-loader",
                         },
@@ -34,6 +32,6 @@ module.exports = [
                 }
             ]
         },
-        plugins: [].concat(devMode ? [] : [new MiniCssExtractPlugin({filename: "css/styles.css"})]),
+        plugins: [new MiniCssExtractPlugin({filename: "css/styles.css"})],
     },
 ];

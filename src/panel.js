@@ -1,5 +1,5 @@
 var Monkberry       = require('monkberry'),
-    MonkberryEvents = require('monkberry-events'),
+    MonkberryEvents = require('monkberry-events'), // eslint-disable-line
     Panel           = require('../view/panel.monk'),
     RequestListener = require('./requestlistener.js');
 
@@ -9,15 +9,15 @@ const filters = {
     }
 };
 
-var toggleRequestList = function(event) {
+let toggleRequestList = function() {
     this.parentNode.querySelector('.request-header').classList.toggle("expanded");
     this.parentNode.querySelector('.request-list').classList.toggle('collapsed');
 };
 
-var view = Monkberry.render(Panel, document.body, {filters: filters});
+let view = Monkberry.render(Panel, document.body, {filters: filters});
 view.on('click', '.header-root', toggleRequestList, false);
 
-var listener = new RequestListener(view);
+let listener = new RequestListener(view);
 listener.addListeners();
 
 view.on('change', '#nameRegex', listener.onFilterChange.bind(listener), false);

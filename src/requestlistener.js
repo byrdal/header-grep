@@ -15,7 +15,7 @@ module.exports = RequestListener;
 
 RequestListener.prototype.addListeners = function() {
     chrome.devtools.network.onNavigated.addListener(
-        function(details) {
+        function() {
             this.requests = [];
             this.resetView();
         }.bind(this)
@@ -55,9 +55,9 @@ RequestListener.prototype.filterHeaders = function(headers) {
 
 RequestListener.prototype.updateView = function(request, headers) {
     if (request && headers) {
-        for (var i = 0; i < headers.length; i++) {
-            var propertyName = headers[i].name + ': ' + headers[i].value;
-            if(!this.filtered.hasOwnProperty(propertyName)) {
+        for (let i = 0; i < headers.length; i++) {
+            let propertyName = headers[i].name + ': ' + headers[i].value;
+            if(!Object.prototype.hasOwnProperty.call(this.filtered, propertyName)) {
                 this.filtered[propertyName] = { header: { name: headers[i].name, value: headers[i].value }, requests: [] };
             }
             this.filtered[propertyName].requests.push({ method: request.request.method, url: request.request.url });
