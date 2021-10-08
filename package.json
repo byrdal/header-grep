@@ -4,7 +4,6 @@
   "description": "Chrome extension, grep header names and values",
   "main": "index.js",
   "scripts": {
-    "postinstall": "npm run build",
     "build": "webpack",
     "watch": "webpack --watch",
     "lint": "npx eslint .",
@@ -27,16 +26,36 @@
   "homepage": "https://github.com/byrdal/header-grep#readme",
   "devDependencies": {
     "css-loader": "^6.3.0",
+    "eslint": "^7.32.0",
     "mini-css-extract-plugin": "^2.4.2",
     "monkberry": "^4.0.8",
     "monkberry-loader": "^4.0.8",
     "node-sass": "^6.0.1",
     "sass-loader": "^12.1.0",
-    "style-loader": "^3.3.0",
     "webpack": "^5.58.0",
     "webpack-cli": "^4.9.0"
   },
   "dependencies": {
     "monkberry-events": "^4.0.8"
+  },
+  "eslintConfig": {
+    "env": {
+      "browser": true,
+      "commonjs": true,
+      "es2021": true
+    },
+    "extends": "eslint:recommended",
+    "ignorePatterns": [
+      "bundle.js"
+    ],
+    "parserOptions": {
+      "ecmaVersion": 12
+    },
+    "globals": {
+      "chrome": "readonly",
+      "__dirname": "readonly"
+    },
+    "rules": {
+    }
   }
 }
