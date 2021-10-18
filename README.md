@@ -1,4 +1,7 @@
 # header-grep
+
+[![build](https://img.shields.io/github/workflow/status/byrdal/header-grep/test)](https://github.com/byrdal/header-grep/actions)
+
 Chrome extension to easily filter header names and values on both requests and responses.
 
 This extension adds a new tab in the chrome developer tools. From there you can monitor and search headers using regular expressions.
