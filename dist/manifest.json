@@ -1,9 +1,9 @@
 {
-  "manifest_version": 2,
+  "manifest_version": 3,
 
   "name": "Header Grep",
   "description": "This extension allows grepping header names and values of all requests",
-  "version": "1.0.3",
+  "version": "1.0.4",
 
   "icons": {
     "48": "icon48.png",
@@ -11,8 +11,7 @@
   },
 
   "devtools_page": "html/devtools.html",
-  "permissions": [
-    "http://*/*",
-    "https://*/*"
+  "host_permissions": [
+    "*://*/*"
   ]
 }
