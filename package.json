@@ -26,7 +26,9 @@
   "homepage": "https://github.com/byrdal/header-grep#readme",
   "devDependencies": {
     "css-loader": "^7.0.0",
-    "eslint": "^8.25.0",
+    "@eslint/js": "^9.21.0",
+    "eslint": "^10.0.0",
+    "globals": "^15.15.0",
     "mini-css-extract-plugin": "^2.6.1",
     "monkberry": "^4.0.8",
     "monkberry-loader": "^4.0.9",
@@ -37,24 +39,5 @@
   },
   "dependencies": {
     "monkberry-events": "^4.0.8"
-  },
-  "eslintConfig": {
-    "env": {
-      "browser": true,
-      "commonjs": true,
-      "es2021": true
-    },
-    "extends": "eslint:recommended",
-    "ignorePatterns": [
-      "bundle.js"
-    ],
-    "parserOptions": {
-      "ecmaVersion": 12
-    },
-    "globals": {
-      "chrome": "readonly",
-      "__dirname": "readonly"
-    },
-    "rules": {}
   }
 }
