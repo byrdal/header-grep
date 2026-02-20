@@ -31,7 +31,7 @@
     "monkberry": "^4.0.8",
     "monkberry-loader": "^4.0.9",
     "sass": "^1.85.1",
-    "sass-loader": "^14.1.1",
+    "sass-loader": "^16.0.0",
     "webpack": "^5.76.0",
     "webpack-cli": "^6.0.0"
   },
