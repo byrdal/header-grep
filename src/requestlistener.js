@@ -35,7 +35,7 @@ RequestListener.prototype.onRequestFinished = function(request) {
 };
 
 RequestListener.prototype.filterRequest = function(request) {
-    var filtered = [];
+    let filtered;
     if (this.requestResponseSelect.value === 'both') {
         filtered = this.filterHeaders(request['request'].headers.concat(request['response'].headers));
     } else {
