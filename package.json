@@ -25,7 +25,7 @@
   },
   "homepage": "https://github.com/byrdal/header-grep#readme",
   "devDependencies": {
-    "css-loader": "^6.7.1",
+    "css-loader": "^7.0.0",
     "eslint": "^8.25.0",
     "mini-css-extract-plugin": "^2.6.1",
     "monkberry": "^4.0.8",
