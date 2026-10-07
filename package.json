@@ -1,13 +1,13 @@
 {
   "name": "header-grep",
-  "version": "1.0.6",
+  "private": true,
   "description": "Chrome extension, grep header names and values",
-  "main": "index.js",
+  "type": "module",
   "scripts": {
-    "build": "webpack",
-    "watch": "webpack --watch",
-    "lint": "npx eslint .",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsc --noEmit && vite build",
+    "watch": "vite build --watch",
+    "lint": "eslint .",
+    "test": "vitest run"
   },
   "repository": {
     "type": "git",
@@ -24,20 +24,19 @@
     "url": "https://github.com/byrdal/header-grep/issues"
   },
   "homepage": "https://github.com/byrdal/header-grep#readme",
+  "dependencies": {
+    "@preact/signals": "^2.11.3",
+    "preact": "^11.0.0"
+  },
   "devDependencies": {
-    "css-loader": "^7.0.0",
     "@eslint/js": "^10.0.0",
+    "@types/chrome": "^0.3.4",
+    "@types/har-format": "^1.2.16",
     "eslint": "^10.0.0",
     "globals": "^17.0.0",
-    "mini-css-extract-plugin": "^2.6.1",
-    "monkberry": "^4.0.8",
-    "monkberry-loader": "^4.0.9",
-    "sass": "^1.85.1",
-    "sass-loader": "^16.0.0",
-    "webpack": "^5.76.0",
-    "webpack-cli": "^6.0.0"
-  },
-  "dependencies": {
-    "monkberry-events": "^4.0.8"
+    "typescript": "~6.0.3",
+    "typescript-eslint": "^8.71.1",
+    "vite": "^8.3.3",
+    "vitest": "^5.0.3"
   }
 }

@@ -1,20 +1,14 @@
-const js = require('@eslint/js');
-const globals = require('globals');
+import js from '@eslint/js';
+import globals from 'globals';
+import tseslint from 'typescript-eslint';
 
-module.exports = [
+export default tseslint.config(
+    { ignores: ['dist'] },
+    js.configs.recommended,
+    tseslint.configs.recommended,
     {
-        ignores: ['**/bundle.js'],
-    },
-    {
-        ...js.configs.recommended,
         languageOptions: {
-            ecmaVersion: 2021,
-            globals: {
-                ...globals.browser,
-                ...globals.commonjs,
-                chrome: 'readonly',
-                __dirname: 'readonly',
-            },
+            globals: globals.browser,
         },
     },
-];
+);
