@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Header Grep",
-  "description": "Grep header names and values of all requests in Chrome DevTools",
+  "description": "Search and filter HTTP request and response headers with regular expressions in a dedicated Chrome DevTools panel.",
   "version": "2.0.0",
   "minimum_chrome_version": "125",
   "icons": {

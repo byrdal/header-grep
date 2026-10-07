@@ -57,5 +57,11 @@ npm run watch
 npm test
 ```
 
+#### Package for the Chrome Web Store
+```
+npm run package
+```
+Creates `header-grep.zip` from `dist`, ready for upload.
+
 ## License
 [MIT](https://github.com/byrdal/header-grep/blob/master/LICENSE)
