@@ -15,7 +15,9 @@ This extension adds a new tab in the chrome developer tools. From there you can 
 * Saved filters, persisted with the rest of the settings
 * Follows the DevTools light/dark theme
 
-![Screenshot](https://github.com/byrdal/header-grep/blob/master/store/screenshot.png?raw=true)
+![Screenshot](store/screenshot.png)
+
+![Grouped by request, dark theme](store/screenshot-dark.png)
 
 ## Technologies
 * TypeScript
