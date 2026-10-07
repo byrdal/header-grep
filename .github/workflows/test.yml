@@ -17,6 +17,20 @@ jobs:
       - run: npm ci
       - run: npm run lint
 
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '24'
+      - uses: actions/cache@v6
+        with:
+          path: 'node_modules'
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/package-lock.json') }}
+      - run: npm ci
+      - run: npm test
+
   build:
     runs-on: ubuntu-latest
     steps:
@@ -43,4 +57,4 @@ jobs:
           path: 'node_modules'
           key: ${{ runner.os }}-modules-${{ hashFiles('**/package-lock.json') }}
       - run: npm ci
-      - run: npx depcheck --ignores depcheck,webpack-cli
+      - run: npx depcheck

@@ -1,0 +1,17 @@
+{
+  "manifest_version": 3,
+  "name": "Header Grep",
+  "description": "Grep header names and values of all requests in Chrome DevTools",
+  "version": "2.0.0",
+  "minimum_chrome_version": "125",
+  "icons": {
+    "16": "icon16.png",
+    "32": "icon32.png",
+    "48": "icon48.png",
+    "128": "icon128.png"
+  },
+  "devtools_page": "devtools.html",
+  "permissions": [
+    "storage"
+  ]
+}
