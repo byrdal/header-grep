@@ -3,5 +3,5 @@
   "extends": [
     "config:recommended"
   ],
-  "assignees": [ "byrdal" ],
+  "assignees": [ "byrdal" ]
 }
